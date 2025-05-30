@@ -3,5 +3,5 @@ export interface Articulo {
     nombre:string;
     fecha_modificacion?: Date;
     marca: string;
-    activo?: boolean;
+    activo: boolean;
 }
