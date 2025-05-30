@@ -4,7 +4,7 @@ import { Auth } from "../interfaces/auth.interface";
 export class UserModel {
     static async findUser(email:string) : Promise<Auth | null>{
         try {
-            const sql = "SELECT email, password FROM usuarios WHERE email = ?;"
+            const sql = "SELECT id_usuario,email, password, rol_id FROM usuarios WHERE email = ?;"
             const [rows] = await pool.query(sql, [email]);
             const usuario = (rows as Auth[]);
             return usuario.length > 0 ? usuario[0] : null;

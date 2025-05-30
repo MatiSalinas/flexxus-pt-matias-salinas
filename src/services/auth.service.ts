@@ -1,6 +1,7 @@
 import { Auth } from "../interfaces/auth.interface";
 import { encrypt , verified} from "../utils/bcrypt.handle";
 import { UserModel } from "../models/user.model";
+import { generateToken } from "../utils/jwt.handle";
 const registerNewUser = async (authUser: Auth) =>{
     const { email, password } = authUser;
     try {
@@ -14,7 +15,7 @@ const registerNewUser = async (authUser: Auth) =>{
     if (!userCreated) {
         throw new Error("Error creating user");
     }
-    return 
+    return userCreated;
     } catch (error) {
         throw new Error(`Error in registerNewUser: ${error}`);
     }
@@ -34,7 +35,16 @@ try {
     if (!isCorrect) {
         return "INCORRECT_EMAIL_OR_PASSWORD";
     }
-    return user;
+
+    if (user.rol_id === undefined) {
+        throw new Error("Missing rol_id for user");
+      }
+    const token = generateToken(user.email, user.rol_id);
+    const data = {
+        token,
+        user
+    }
+    return data;
 } catch (error) {
     throw new Error(`Error in loginUser: ${error}`);
 }
