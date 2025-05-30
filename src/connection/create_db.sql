@@ -23,11 +23,14 @@ USE `flexxus_prueba_tecnica` ;
 CREATE TABLE IF NOT EXISTS `flexxus_prueba_tecnica`.`articulos` (
   `id_articulos` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(80) NOT NULL,
-  `fecha_modificacion` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `fecha_modificacion` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `marca` VARCHAR(80) NOT NULL,
-  `activo` TINYINT NOT NULL DEFAULT 1,
+  `activo` TINYINT NOT NULL DEFAULT '1',
   PRIMARY KEY (`id_articulos`))
-ENGINE = InnoDB;
+ENGINE = InnoDB
+AUTO_INCREMENT = 2
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
@@ -37,7 +40,9 @@ CREATE TABLE IF NOT EXISTS `flexxus_prueba_tecnica`.`roles` (
   `id_rol` INT NOT NULL AUTO_INCREMENT,
   `nombre_rol` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id_rol`))
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
@@ -53,10 +58,10 @@ CREATE TABLE IF NOT EXISTS `flexxus_prueba_tecnica`.`usuarios` (
   INDEX `fk_usuarios_roles_idx` (`rol_id` ASC) VISIBLE,
   CONSTRAINT `fk_usuarios_roles`
     FOREIGN KEY (`rol_id`)
-    REFERENCES `flexxus_prueba_tecnica`.`roles` (`id_rol`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    REFERENCES `flexxus_prueba_tecnica`.`roles` (`id_rol`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
