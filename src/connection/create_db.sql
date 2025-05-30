@@ -50,11 +50,12 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `flexxus_prueba_tecnica`.`usuarios` (
   `id_usuario` INT NOT NULL AUTO_INCREMENT,
-  `username` VARCHAR(45) NOT NULL,
-  `password` VARCHAR(150) NOT NULL,
-  `rol_id` INT NOT NULL,
+  `email` VARCHAR(100) NOT NULL,
+  `password` VARCHAR(150) CHARACTER SET 'armscii8' NOT NULL,
   `fecha_creacion` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+  `rol_id` INT NOT NULL,
   PRIMARY KEY (`id_usuario`),
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
   INDEX `fk_usuarios_roles_idx` (`rol_id` ASC) VISIBLE,
   CONSTRAINT `fk_usuarios_roles`
     FOREIGN KEY (`rol_id`)

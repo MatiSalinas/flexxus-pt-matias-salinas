@@ -1,4 +1,6 @@
-const registerNewUser = async () =>{
+import { Auth } from "../interfaces/auth.interface";
+
+const registerNewUser = async (authUser: Auth) =>{
 
 }
 
