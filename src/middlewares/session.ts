@@ -9,7 +9,7 @@ const checkJWT = (req: Request, res: Response, next: NextFunction) => {
             res.status(401).send({message: "Invalid token"});
             return;
         }
-        req.user = isOk; // no le encuentro solucion a esto, intente solucionarlo con el archivo en types/express... segun un post de stack overflow
+        req.user = isOk; // no le encuentro solucion a esto, intente solucionarlo con el archivo en types/express segun un post de stack overflow
         // aun asi funciona...
         next();
     } catch (error) {
