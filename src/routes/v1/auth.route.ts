@@ -3,6 +3,6 @@ import { registerController, loginController } from "../../controllers/auth.cont
 const authRouter = Router();
 
 authRouter.post("/login",loginController);
-authRouter.post("/register", registerController);
+authRouter.post("/register",registerController);
 
 export default authRouter;

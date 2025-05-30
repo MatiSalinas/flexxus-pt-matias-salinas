@@ -6,11 +6,29 @@ const checkJWT = (req: Request, res: Response, next: NextFunction) => {
         const jwt = jwtByUser.split(" ").pop();
         const isOk = verifyToken(`${jwt}`);
         if (!isOk) {
-            return res.status(401).send({message: "Invalid token"});
+            res.status(401).send({message: "Invalid token"});
+            return;
         }
-        console.log(isOk);
+        req.user = isOk; // no le encuentro solucion a esto, intente solucionarlo con el archivo en types/express... segun un post de stack overflow
+        // aun asi funciona...
         next();
     } catch (error) {
         res.status(400).send({message: "Invalid token", error: error });
     }
 }
+const checkRole = (roles: number[]) => {
+    return (req: Request, res: Response, next: NextFunction) => {
+        const user = req.user;
+        if (!user) {
+            res.status(401).send({message: "Invalid token"});
+            return;
+        }
+        if (!roles.includes(user.id_rol)){
+            res.status(403).send({message: "Unauthorized"});
+            return;
+        }
+        next();
+    }
+}
+
+export { checkJWT, checkRole };

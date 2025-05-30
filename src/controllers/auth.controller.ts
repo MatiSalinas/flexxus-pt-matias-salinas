@@ -7,10 +7,10 @@ const registerController = async (req: Request, res: Response)  => {
         const  dataUser : Auth = req.body;
         const responseUser = await registerNewUser(dataUser);
         if (responseUser === "EMAIL_ALREADY_EXISTS") {
-            res.status(400).send("El correo ya existe");
+            res.status(400).send("email already in use");
             return;
         }
-        res.status(201).send("usuario creado con exito");
+        res.status(201).send("user created succesfully");
         
     } catch (error) {
         handleHttpError(res, "ERROR_REGISTER_USER", error);
@@ -22,7 +22,7 @@ const loginController = async (req: Request, res: Response) => {
         const  dataUser : Auth = req.body;
         const responseUser = await loginUser(dataUser);
         if (responseUser === "INCORRECT_EMAIL_OR_PASSWORD") {
-            res.status(403).send("Correo o contraseña incorrectos");
+            res.status(403).send("incorrect email or password");
             return;
         }
         res.status(201).send(responseUser);
