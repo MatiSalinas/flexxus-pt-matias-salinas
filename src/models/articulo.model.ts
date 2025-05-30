@@ -4,7 +4,7 @@ export class ArticuloModel{
 
     static async findAll(nombre?: string, activo?: boolean): Promise<Articulo[]>{
         try {
-            let sql = "SELECT id_articulo, nombre, marca, activo, fecha_modificacion FROM articulos WHERE 1=1";
+            let sql = "SELECT id_articulos, nombre, marca, activo, fecha_modificacion FROM articulos WHERE 1=1";
             const values: any[] = [];
             if (nombre) {
                 sql += " AND nombre LIKE ?";
@@ -13,7 +13,12 @@ export class ArticuloModel{
 
             if (activo !== undefined) {
                 sql += " AND activo = ?";
-                values.push(activo);
+                if (activo){
+                    values.push(1);
+                }
+                else{
+                    values.push(0);
+                }
             }
             const [rows] = await pool.query(sql, values);
             return rows as Articulo[];
@@ -24,7 +29,7 @@ export class ArticuloModel{
 
     static async findById(id: number): Promise<Articulo | null> {
         try {
-            const sql = "SELECT id_articulo, nombre, marca, activo, fecha_modificacion FROM articulos WHERE id_articulo = ?;";
+            const sql = "SELECT id_articulos, nombre, marca, activo, fecha_modificacion FROM articulos WHERE id_articulos = ?;";
             const [rows] = await pool.query(sql, [id]);
             const articulo = (rows as Articulo[]);
             return articulo.length > 0 ? articulo[0] : null;
@@ -47,7 +52,7 @@ export class ArticuloModel{
             if (entries.length === 0) return false;
             const setClause = entries.map(([key]) => `${key} = ?`).join(', ');
             const values = entries.map(([, value]) => value);
-            const sql = `UPDATE articulos SET ${setClause} WHERE id_articulo = ?`;
+            const sql = `UPDATE articulos SET ${setClause} WHERE id_articulos = ?`;
             const [result] = await pool.query(sql, [...values, id]);
             return (result as any).affectedRows > 0;
         } catch (error) {
@@ -58,7 +63,7 @@ export class ArticuloModel{
 
     static async deleteArticulo(id: number): Promise<boolean> {
         try {
-            const sql = "UPDATE articulos SET activo = 0 WHERE id_articulo = ?;";
+            const sql = "UPDATE articulos SET activo = 0 WHERE id_articulos = ?;";
             const [result] = await pool.query(sql, [id]);
             return (result as any).affectedRows > 0;
         } catch (error) {
