@@ -42,8 +42,14 @@ INSERT INTO `flexxus_prueba_tecnica`.`roles` (`id_rol`, `nombre_rol`) VALUES ('1
 INSERT INTO `flexxus_prueba_tecnica`.`roles` (`id_rol`, `nombre_rol`) VALUES ('2', 'administrador');
 ```
 
+una vez hecho esto podemos levantar la API
+
+```
+npm run dev 
+```
 
 Luego debemos crear un usuario y modificar su rol_id a 2 para poder acceder a todas las funcionalidades de la API.
+
 ## INFORMACION GENERAL
 
 Base URL
