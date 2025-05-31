@@ -14,6 +14,12 @@ export const articleQuerySchema = z.object({
   nombre: z.string().optional(),
 })
 
+export const articleParamSchema = z.object({
+  id: z.string()
+      .min(1, "ID is required")
+      .regex(/^\d+$/, "ID must be a valid number")
+});
+
 export const createArticuloSchema = z.object({
   nombre: z.string().min(1, "Nombre is required").max(80, "nombre cannot exceed 80 characters"),
   marca: z.string().min(1, "Marca is required").max(80, "marca cannot exceed 80 characters"),

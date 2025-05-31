@@ -34,3 +34,20 @@ export const validateQuery = (schema: AnyZodObject) => (
         })
     }
 }
+
+export const validateParams = (schema: AnyZodObject) => (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): void => {
+    try {
+        schema.parse(req.params);
+        next();
+    } catch (error: any) {
+        res.status(400).send({
+            success: false,
+            message: "Error validating request parameters",
+            error: error.errors
+        });
+    }
+};
