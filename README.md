@@ -1,5 +1,12 @@
 # API REST - Flexus prueba técnica Backend
 Salinas Matias 
+
+## requisitos
+
+-node 
+-mysql 
+-mysql workbench
+
 ## Descripción
 
 Esta es una API REST donde podemos acceder, crear, modificar y dar de baja articulos.
