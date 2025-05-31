@@ -6,7 +6,9 @@ const checkJWT = (req: Request, res: Response, next: NextFunction) => {
         const jwt = jwtByUser.split(" ").pop();
         const isOk = verifyToken(`${jwt}`);
         if (!isOk) {
-            res.status(401).send({message: "Invalid token"});
+            res.status(401).send({
+                succes:false,
+                message: "Invalid token"});
             return;
         }
         req.user = isOk; // no le encuentro solucion a este problema de typescript, intente solucionarlo con el archivo en types/express segun un post de stack overflow
@@ -24,7 +26,9 @@ const checkRole = (roles: number[]) => {
             return;
         }
         if (!roles.includes(user.id_rol)){
-            res.status(403).send({message: "Unauthorized"});
+            res.status(403).send({
+                succes:false,
+                message: "Unauthorized"});
             return;
         }
         next();

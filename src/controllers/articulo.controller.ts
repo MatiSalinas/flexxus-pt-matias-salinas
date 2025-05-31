@@ -45,7 +45,9 @@ const postArticulo = async (req: Request, res: Response) => {
         if (response){
             res.status(201).send({
                 message: "Article created successfully",
-                success: true
+                success: true,
+                data: response
+
             });
             return;
         }
@@ -62,7 +64,9 @@ const putArticulo = async (req: Request, res: Response) => {
         if (response) {
             res.status(200).send({
                 message: "Article updated successfully",
-                success: true
+                success: true,
+                data: response
+
             });
             return;
         }

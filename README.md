@@ -217,7 +217,7 @@ METODO: GET
 Autenticacion: Requerida
 
 Status: 200 OK
-````
+```
 {
   "success": true,
   "data": {
@@ -255,6 +255,21 @@ Status: 400 Bad Request
 }
 ```
 ###Ejemplo de uso
+
+```
+let headersList = {
+ "Accept": "*/*",
+ "User-Agent": "Thunder Client (https://www.thunderclient.com)",
+ "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhbGluYXNtYXRpYXNpdEBnbWFpbC5jb20iLCJpZF9yb2wiOjEsImlhdCI6MTc0ODcxNDU4OCwiZXhwIjoxNzQ4NzIxNzg4fQ.Cn_vXsAdDepy9CQnFyXIidKgFqr9iKWYnnlNCI24Y14",
+ "Content-Type": "application/json"
+}
+
+let response = await fetch("http://localhost:3000/api/v1/articulos/1", { 
+  method: "GET",
+  headers: headersList
+});
+
+```
 
 obtener todos los articulos
 
@@ -333,7 +348,7 @@ Status: 400 Bad Request
 
 ### Ejemplo de uso
 
-````
+```
 let headersList = {
  "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhbGluYXNtYXRpYXNpdEBnbWFpbC5jb20iLCJpZF9yb2wiOjEsImlhdCI6MTc0ODcxNDU4OCwiZXhwIjoxNzQ4NzIxNzg4fQ.Cn_vXsAdDepy9CQnFyXIidKgFqr9iKWYnnlNCI24Y14",
  "Content-Type": "application/json"
@@ -345,3 +360,183 @@ let response = await fetch("http://localhost:3000/api/v1/articulos?isActivo=1&no
 });
 
 ```
+
+METODO: POST
+Auntenticacion: Requerida rol id 2 (admin)
+
+Body
+
+```
+{
+"nombre":"horno", // maximo 80 chars
+"marca":"Gafa", // maximo 80 chars
+"activo":"1" //opcional tiene que ser string "1" o "0" default "1"
+}
+```
+
+
+Status: 403 Forbidden
+
+```
+{
+  "succes": false,
+  "message": "Unauthorized"
+}
+```
+
+400 Bad Request
+```
+{
+  "success": false,
+  "message": "Error validating request body",
+  "error": [
+    {
+      "code": "invalid_type",
+      "expected": "string",
+      "received": "undefined",
+      "path": [
+        "nombre"
+      ],
+      "message": "Required"
+    },
+    {
+      "code": "invalid_type",
+      "expected": "string",
+      "received": "undefined",
+      "path": [
+        "marca"
+      ],
+      "message": "Required"
+    }
+  ]
+}
+```
+
+Status: 201 Created
+
+```
+{
+  "message": "Article created successfully",
+  "success": true,
+  "data": {
+    "id_articulos": 12,
+    "nombre": "horno",
+    "marca": "Gafa",
+    "activo": 1,
+    "fecha_modificacion": "2025-05-31T19:48:28.000Z"
+  }
+}
+```
+
+### Ejemplo de uso
+
+```
+let headersList = {
+ "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVtYWlsQGVtYWlsLmNvbSIsImlkX3JvbCI6MiwiaWF0IjoxNzQ4NzIwMzU4LCJleHAiOjE3NDg3Mjc1NTh9.ciYZABNSpnsbAJT_7l9YTU9Kb6kA--lgQ5rZ1yYaSjQ",
+ "Content-Type": "application/json"
+}
+
+let bodyContent = JSON.stringify({
+"nombre":"estufa",
+"marca":"Gafax",
+"activo":"1"
+
+});
+
+let response = await fetch("http://localhost:3000/api/v1/articulos/", { 
+  method: "POST",
+  body: bodyContent,
+  headers: headersList
+});
+
+```
+
+METODO: PUT
+
+Autorizacion: Requerida rol id 2 (admin)
+
+Body
+
+```
+{
+"nombre":"horno", // opcional maximo 80 chars
+"marca":"Gafa", //opcional maximo 80 chars
+"activo":"1" //opcional tiene que ser string "1" o "0" default "1"
+}
+```
+
+
+Status: 400 Bad Request
+
+```
+{
+  "success": false,
+  "message": "Error validating request body",
+  "error": [
+    {
+      "code": "invalid_type",
+      "expected": "string",
+      "received": "number",
+      "path": [
+        "nombre"
+      ],
+      "message": "Expected string, received number"
+    },
+    {
+      "code": "invalid_type",
+      "expected": "string",
+      "received": "number",
+      "path": [
+        "marca"
+      ],
+      "message": "Expected string, received number"
+    },
+    {
+      "expected": "'0' | '1'",
+      "received": "number",
+      "code": "invalid_type",
+      "path": [
+        "activo"
+      ],
+      "message": "Expected '0' | '1', received number"
+    }
+  ]
+}
+```
+
+Status: 200 OK
+```
+{
+  "message": "Article updated successfully",
+  "success": true,
+  "data": {
+    "id_articulos": 12,
+    "nombre": "microondas",
+    "marca": "Gafa",
+    "activo": 0,
+    "fecha_modificacion": "2025-05-31T20:15:18.000Z"
+  }
+}
+```
+###  Ejemplo de uso
+```
+let headersList = {
+ "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVtYWlsQGVtYWlsLmNvbSIsImlkX3JvbCI6MiwiaWF0IjoxNzQ4NzIwMzU4LCJleHAiOjE3NDg3Mjc1NTh9.ciYZABNSpnsbAJT_7l9YTU9Kb6kA--lgQ5rZ1yYaSjQ",
+ "Content-Type": "application/json"
+}
+
+let bodyContent = JSON.stringify({
+  "nombre":"microondas"
+  
+});
+
+let response = await fetch("http://localhost:3000/api/v1/articulos/12", { 
+  method: "PUT",
+  body: bodyContent,
+  headers: headersList
+});
+
+```
+
+METODO: DELETE
+Autorizacion: Requerida rol id 2 (admin)

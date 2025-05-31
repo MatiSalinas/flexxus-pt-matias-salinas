@@ -28,11 +28,11 @@ export class ArticuloModel{
             const [rows] = await pool.query(sql, [id]);
             const articulo = (rows as Articulo[]);
             return articulo.length > 0 ? articulo[0] : null;
-        } catch (error) {
+        } catch (error: any) {
             throw new Error(`Error fetching article by ID: ${error}`);
         }
     }
-    static async createArticulo(articulo: CreateArticuloDTO): Promise<boolean> {
+    static async createArticulo(articulo: CreateArticuloDTO): Promise<Articulo> {
         const sql = "INSERT INTO articulos (nombre, marca, activo) VALUES (?, ?, ?);";
         try {
             const [result] = await pool.query(sql, [
@@ -40,21 +40,38 @@ export class ArticuloModel{
                 articulo.marca, 
                 articulo.activo ?? true 
             ]);
-            return (result as any).affectedRows > 0;
+            
+            const insertId = (result as any).insertId;
+            
+            if (!insertId) {
+                throw new Error('Failed to create article - no ID returned');
+            }
+            
+            const articuloCreado = await this.findById(insertId);
+            
+            if (!articuloCreado) {
+                throw new Error('Article created but not found');
+            }
+            
+            return articuloCreado;
+            
         } catch (error: any) {
-            throw new Error(`Error creating article: ${error}`);
+            throw new Error(`Error creating article: ${error.message || error}`);
         }
     }
-    static async updateArticulo(id: number, articulo: Partial<Articulo>): Promise<boolean> {
+    static async updateArticulo(id: number, articulo: Partial<Articulo>): Promise<Articulo | null> {
         try {
             const entries = Object.entries(articulo).filter(([key]) => key !== 'id');
-            if (entries.length === 0) return false;
+            if (entries.length === 0) return null;
             const setClause = entries.map(([key]) => `${key} = ?`).join(', ');
             const values = entries.map(([, value]) => value);
             const sql = `UPDATE articulos SET ${setClause} WHERE id_articulos = ?`;
             const [result] = await pool.query(sql, [...values, id]);
-            return (result as any).affectedRows > 0;
-        } catch (error) {
+            
+            const updatedArticle = await this.findById(id)
+
+            return updatedArticle;
+        } catch (error: any) {
             throw new Error(`Error updating article: ${error}`);
         }
         
@@ -65,7 +82,7 @@ export class ArticuloModel{
             const sql = "UPDATE articulos SET activo = 0 WHERE id_articulos = ?;";
             const [result] = await pool.query(sql, [id]);
             return (result as any).affectedRows > 0;
-        } catch (error) {
+        } catch (error: any) {
             throw new Error(`Error deleting article: ${error}`);
         }
     }
