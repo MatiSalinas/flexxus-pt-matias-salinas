@@ -559,7 +559,8 @@ Status: 200 OK
 {
   "message": "Article deleted successfully",
   "success": true
-}```
+}
+```
 
 
 Status: 404 Not Found
@@ -602,7 +603,7 @@ let response = await fetch("http://localhost:3000/api/v1/articulos/122", {
   method: "DELETE",
   headers: headersList
 });
-
+```
 //TODO
 Deberia mover logica de negocio a services 
 Dockerizar el proyecto
