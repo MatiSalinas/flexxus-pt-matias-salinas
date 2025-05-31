@@ -1,8 +1,8 @@
 import pool from "../connection/db";
-import { Articulo } from "../interfaces/articulos.interface";
+import { Articulo, CreateArticuloDTO } from "../interfaces/articulos.interface";
 export class ArticuloModel{
 
-    static async findAll(nombre?: string, activo?: boolean): Promise<Articulo[]>{
+    static async findAll(nombre?: string, activo?: number): Promise<Articulo[]>{
         try {
             let sql = "SELECT id_articulos, nombre, marca, activo, fecha_modificacion FROM articulos WHERE 1=1";
             const values: any[] = [];
@@ -13,12 +13,7 @@ export class ArticuloModel{
 
             if (activo !== undefined) {
                 sql += " AND activo = ?";
-                if (activo){
-                    values.push(1);
-                }
-                else{
-                    values.push(0);
-                }
+                values.push(activo);
             }
             const [rows] = await pool.query(sql, values);
             return rows as Articulo[];
@@ -37,10 +32,14 @@ export class ArticuloModel{
             throw new Error(`Error fetching article by ID: ${error}`);
         }
     }
-    static async createArticulo(articulo: Articulo): Promise<boolean> {
+    static async createArticulo(articulo: CreateArticuloDTO): Promise<boolean> {
         const sql = "INSERT INTO articulos (nombre, marca, activo) VALUES (?, ?, ?);";
         try {
-            const [result] = await pool.query(sql, [articulo.nombre, articulo.marca, articulo.activo]);
+            const [result] = await pool.query(sql, [
+                articulo.nombre, 
+                articulo.marca, 
+                articulo.activo ?? true 
+            ]);
             return (result as any).affectedRows > 0;
         } catch (error: any) {
             throw new Error(`Error creating article: ${error}`);

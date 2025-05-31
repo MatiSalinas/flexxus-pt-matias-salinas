@@ -1,15 +1,16 @@
 import { Request, Response } from "express";
 import { handleHttpError } from "../utils/error.handle";
 import { ArticuloModel } from "../models/articulo.model";
-import { Articulo } from "../interfaces/articulos.interface";
+import { Articulo, CreateArticuloDTO } from "../interfaces/articulos.interface";
+import { articleSchema, createArticuloSchema } from '../validations/articulo.schema';
 
 const getArticulos = async (req: Request, res: Response) => {
     try {
         const nombre = req.query.nombre as string | undefined;
-        const activo = req.query.activo as boolean | undefined;
+        const activo = req.query.isActivo as number | undefined;
 
         const articulos = await ArticuloModel.findAll(nombre, activo);
-        
+
         res.status(200).send({
             success: true,
             data: articulos,
@@ -39,7 +40,7 @@ const getArticulo = async (req: Request, res: Response) => {
 }
 const postArticulo = async (req: Request, res: Response) => {
     try {
-        const ArticuloData : Articulo = req.body;
+        const ArticuloData : CreateArticuloDTO = req.body;
         const response = await ArticuloModel.createArticulo(ArticuloData);
         if (response){
             res.status(201).send({

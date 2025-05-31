@@ -17,3 +17,20 @@ export const validateBody = (schema: AnyZodObject) => (
         })
     }
 }
+
+export const validateQuery = (schema: AnyZodObject) => (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): void => {
+    try {
+        schema.parse(req.query);
+        next();
+    } catch (error: any) {
+        res.status(400).send({
+            success: false,
+            message: "Error validating request body",
+            error: error.errors
+        })
+    }
+}
