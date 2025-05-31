@@ -71,7 +71,6 @@ export const validateResponse = (schema: AnyZodObject) => (
             if (typeof data === 'string') {
                 return originalSend.call(this, data);
             }
-            
             // Solo validamos respuestas exitosas
             const validatedData = schema.parse(data);
             return originalSend.call(this, validatedData);
