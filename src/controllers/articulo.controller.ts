@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { handleHttpError } from "../utils/error.handle";
 import { ArticuloModel } from "../models/articulo.model";
 import { Articulo, CreateArticuloDTO } from "../interfaces/articulos.interface";
-import { articleSchema, createArticuloSchema } from '../validations/articulo.schema';
 
 const getArticulos = async (req: Request, res: Response) => {
     try {
@@ -70,7 +69,7 @@ const putArticulo = async (req: Request, res: Response) => {
             });
             return;
         }
-        res.status(400).send({message: "Error updating article", success: false});
+        res.status(404).send({message: "Article not Found", success: false});
     } catch (error) {
         handleHttpError(res, "ERROR_PUT_ARTICULO",error);
     }
@@ -86,7 +85,7 @@ const deleteArticulo = async (req: Request, res: Response) => {
             });
             return;
         }
-        res.status(400).send({message: "Error deleting article", success: false});
+        res.status(404).send({message: "Article not found", success: false});
     } catch (error) {
         handleHttpError(res, "ERROR_DELETE_ARTICULO",error);
     }

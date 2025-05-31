@@ -1,8 +1,10 @@
 # API REST - Flexus prueba tecnica Backend
-
+Salinas Matias 
 ## Descripción
 
 Esta es una API REST donde podemos acceder, crear, modificar y dar de baja articulos.
+
+Validando tanto Request como Response.
 
 
 ## Tecnologías utilizadas
@@ -548,3 +550,59 @@ Autorizacion: Requerida rol id 2 (admin)
 URL 
 > /articulos/id
 
+Status: 200 OK
+```
+{
+  "message": "Article deleted successfully",
+  "success": true
+}```
+
+
+Status: 404 Not Found
+```
+{
+  "message": "Article not found",
+  "success": false
+}
+```
+
+
+Status: 400 Bad Request
+```
+{
+  "success": false,
+  "message": "Error validating request parameters",
+  "error": [
+    {
+      "validation": "regex",
+      "code": "invalid_string",
+      "message": "ID must be a valid number",
+      "path": [
+        "id"
+      ]
+    }
+  ]
+}
+```
+
+### Ejemplo de uso
+
+```
+let headersList = {
+ "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVtYWlsQGVtYWlsLmNvbSIsImlkX3JvbCI6MiwiaWF0IjoxNzQ4NzIwMzU4LCJleHAiOjE3NDg3Mjc1NTh9.ciYZABNSpnsbAJT_7l9YTU9Kb6kA--lgQ5rZ1yYaSjQ",
+ "Content-Type": "application/json"
+}
+
+
+let response = await fetch("http://localhost:3000/api/v1/articulos/122", { 
+  method: "DELETE",
+  headers: headersList
+});
+
+//TODO
+Deberia mover logica de negocio a services 
+Dockerizar el proyecto
+script para crear base de datos y tablas
+seedear roles
+sustituir zod por class-validator para cumplir con los estandares de flexxus
+scripts para buildear
