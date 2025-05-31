@@ -1,5 +1,17 @@
 # API REST - Flexus prueba técnica Backend
 Salinas Matias 
+Organice el proyecto en carpetas
+routes 
+models 
+controllers
+services
+utils
+interfaces
+
+valide los datos utilizando zod.
+
+centralicé el manejo de errores.
+
 
 ## requisitos
 
