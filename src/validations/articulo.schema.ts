@@ -14,7 +14,7 @@ export const articleQuerySchema = z.object({
   nombre: z.string().optional(),
 })
 
-export const articleParamSchema = z.object({
+export const articuloParamSchema = z.object({
   id: z.string()
       .min(1, "ID is required")
       .regex(/^\d+$/, "ID must be a valid number")

@@ -39,6 +39,7 @@ try {
     if (user.rol_id === undefined) {
         throw new Error("Missing rol_id for user");
       }
+
     const token = generateToken(user.email, user.rol_id);
     const data = {
         token,
