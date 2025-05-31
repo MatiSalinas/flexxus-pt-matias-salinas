@@ -51,7 +51,7 @@ Autenticacion: Bearer Token (JWT)
 Registrar usuario
 
 URL
-> auth/register
+> /auth/register
 
 Metodo: POST
 
@@ -129,7 +129,7 @@ let response = await fetch("http://localhost:3000/api/v1/auth/register", {
 login usuario
 
 URL
-> auth/login
+> /auth/login
 
 Metodo: POST
 
@@ -453,6 +453,9 @@ let response = await fetch("http://localhost:3000/api/v1/articulos/", {
 
 METODO: PUT
 
+URL 
+> /articulos/id
+
 Autorizacion: Requerida rol id 2 (admin)
 
 Body
@@ -539,4 +542,9 @@ let response = await fetch("http://localhost:3000/api/v1/articulos/12", {
 ```
 
 METODO: DELETE
+
 Autorizacion: Requerida rol id 2 (admin)
+
+URL 
+> /articulos/id
+

@@ -51,3 +51,43 @@ export const validateParams = (schema: AnyZodObject) => (
         });
     }
 };
+
+
+export const validateResponse = (schema: AnyZodObject) => (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): void => {
+    const originalSend = res.send;
+    
+    res.send = function(data: any) {
+        try {
+            // Si es un objeto con success: false, es un error y no lo validamos
+            if (typeof data === 'object' && data.success === false) {
+                return originalSend.call(this, data);
+            }
+            
+            // Si es string, tampoco validamos
+            if (typeof data === 'string') {
+                return originalSend.call(this, data);
+            }
+            
+            // Solo validamos respuestas exitosas
+            const validatedData = schema.parse(data);
+            return originalSend.call(this, validatedData);
+        } catch (error: any) {
+            console.error('Error validating response:', {
+                endpoint: `${req.method} ${req.originalUrl}`,
+                error: error.errors
+            });
+            
+            return originalSend.call(this, {
+                success: false,
+                message: "Error validating response data",
+                error: process.env.NODE_ENV === 'development' ? error.errors : 'Internal server error'
+            });
+        }
+    };
+    
+    next();
+};

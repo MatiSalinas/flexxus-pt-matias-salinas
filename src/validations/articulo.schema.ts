@@ -4,10 +4,21 @@ export const articleSchema = z.object({
   id_articulos: z.number().optional(),
   nombre: z.string().max(80),
   marca: z.string().max(80),
-  activo: z.enum(["0", "1"])
+  fecha_modificacion: z.date(),
+  activo: z.union([z.enum(["0", "1"]), z.number().min(0).max(1)]),
 });
 
 export const articlesListSchema = z.array(articleSchema);
+
+export const articleResponseSchema = z.object({
+  success: z.boolean(),
+  data: articleSchema
+});
+
+export const articlesListResponseSchema = z.object({
+  success: z.boolean(),
+  data: articlesListSchema
+});
 
 export const articleQuerySchema = z.object({
   isActivo: z.enum(["1","0"]).optional(),
