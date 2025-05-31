@@ -1,4 +1,4 @@
-# API REST - Flexus prueba tecnica Backend
+# API REST - Flexus prueba técnica Backend
 Salinas Matias 
 ## Descripción
 
@@ -33,6 +33,8 @@ cp .env.example .env
 ## Como levantar y asegurarnos de que todo funcione
 en src/connection tenemos un modelo que usando MySQL Workbench 8.0 podemos construir el schema y las tablas necesarias
 
+![Diagrama entidad relación](docs/EER.PNG)
+
 tambien debemos asegurarnos de que la tabla roles contenga por lo menos estos 2 registros
 
 ```
@@ -40,15 +42,17 @@ INSERT INTO `flexxus_prueba_tecnica`.`roles` (`id_rol`, `nombre_rol`) VALUES ('1
 INSERT INTO `flexxus_prueba_tecnica`.`roles` (`id_rol`, `nombre_rol`) VALUES ('2', 'administrador');
 ```
 
+
+Luego debemos crear un usuario y modificar su rol_id a 2 para poder acceder a todas las funcionalidades de la API.
 ## INFORMACION GENERAL
 
 Base URL
 > http://localhost:3000/api/v1/
 
 Version: 1.0.0
-Autenticacion: Bearer Token (JWT)
+Autenticación: Bearer Token (JWT)
 
-## RUTAS AUTENTICACION
+## RUTAS AUTENTICACIÓN
 
 Registrar usuario
 
@@ -72,7 +76,7 @@ Respuestas
 Status: 409 Conflict
 ```
 {
-  "succes": false,
+  "success": false,
   "message": "email already in use"
 }
 ```
@@ -103,7 +107,7 @@ Status: 201 Created
 
 ```
 {
-  "succes": true,
+  "success": true,
   "message": "user created succesfully"
 }
 ```
@@ -216,7 +220,7 @@ URL
 
 METODO: GET
 
-Autenticacion: Requerida
+Autenticación: Requerida
 
 Status: 200 OK
 ```
@@ -280,12 +284,12 @@ URL
 
 Metodo: GET
 
-Autenticacion: Requerida
+Autenticación: Requerida
 queries
 
 isActivo - opcional - Acepta 1 o 0 , si no la especificamos obtendremos tanto activos como inactivos.
 
-nombre - opcional - devuelve articulos por coicidencia en nombre.
+nombre - opcional - devuelve articulos por coincidencia en nombre.
 
 
 Status: 200 OK
@@ -364,14 +368,14 @@ let response = await fetch("http://localhost:3000/api/v1/articulos?isActivo=1&no
 ```
 
 METODO: POST
-Auntenticacion: Requerida rol id 2 (admin)
+Autenticación: Requerida rol id 2 (admin)
 
 Body
 
 ```
 {
-"nombre":"horno", // maximo 80 chars
-"marca":"Gafa", // maximo 80 chars
+"nombre":"horno", // máximo 80 chars
+"marca":"Gafa", // máximo 80 chars
 "activo":"1" //opcional tiene que ser string "1" o "0" default "1"
 }
 ```
@@ -381,7 +385,7 @@ Status: 403 Forbidden
 
 ```
 {
-  "succes": false,
+  "success": false,
   "message": "Unauthorized"
 }
 ```
@@ -458,7 +462,7 @@ METODO: PUT
 URL 
 > /articulos/id
 
-Autorizacion: Requerida rol id 2 (admin)
+Autorización: Requerida rol id 2 (admin)
 
 Body
 
@@ -545,7 +549,7 @@ let response = await fetch("http://localhost:3000/api/v1/articulos/12", {
 
 METODO: DELETE
 
-Autorizacion: Requerida rol id 2 (admin)
+Autorización: Requerida rol id 2 (admin)
 
 URL 
 > /articulos/id

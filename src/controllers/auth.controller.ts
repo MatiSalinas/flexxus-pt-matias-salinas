@@ -9,12 +9,12 @@ const registerController = async (req: Request, res: Response)  => {
         const responseUser = await registerNewUser(dataUser);
         if (responseUser === "EMAIL_ALREADY_EXISTS") {
             res.status(409).send({
-                succes: false,
+                success: false,
                 message:"email already in use"});
             return;
         }
         res.status(201).send({
-            succes:true,
+            success:true,
             message:"user created succesfully"});
         
     } catch (error) {

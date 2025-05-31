@@ -7,7 +7,7 @@ const checkJWT = (req: Request, res: Response, next: NextFunction) => {
         const isOk = verifyToken(`${jwt}`);
         if (!isOk) {
             res.status(401).send({
-                succes:false,
+                success:false,
                 message: "Invalid token"});
             return;
         }
@@ -27,7 +27,7 @@ const checkRole = (roles: number[]) => {
         }
         if (!roles.includes(user.id_rol)){
             res.status(403).send({
-                succes:false,
+                success:false,
                 message: "Unauthorized"});
             return;
         }
