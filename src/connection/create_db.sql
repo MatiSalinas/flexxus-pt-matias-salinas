@@ -64,6 +64,117 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
+USE `flexxus_prueba_tecnica` ;
+
+-- -----------------------------------------------------
+-- procedure sp_create_articulo
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `flexxus_prueba_tecnica`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_create_articulo`(
+    IN p_nombre VARCHAR(80),
+    IN p_marca VARCHAR(80),
+    IN p_activo TINYINT
+)
+BEGIN
+    IF p_nombre IS NULL OR p_nombre = '' THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'El nombre es requerido';
+    END IF;
+    IF p_marca IS NULL OR p_marca = '' THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'La marca es requerida';
+    END IF;
+    INSERT INTO articulos (nombre, marca, activo, fecha_modificacion)
+    VALUES (p_nombre, p_marca, IFNULL(p_activo, 1), NOW());
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure sp_delete_articulo
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `flexxus_prueba_tecnica`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_articulo`(
+    IN p_id INT
+)
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM articulos WHERE id_articulos = p_id) THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'El artículo no existe';
+    END IF;
+    UPDATE articulos
+    SET activo = 0, fecha_modificacion = NOW()
+    WHERE id_articulos = p_id;
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure sp_get_articulo_by_id
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `flexxus_prueba_tecnica`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_articulo_by_id`(
+    IN p_id INT
+)
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM articulos WHERE id_articulos = p_id) THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'El artículo no existe';
+    END IF;
+    SELECT id_articulos, nombre, marca, activo, fecha_modificacion
+    FROM articulos
+    WHERE id_articulos = p_id;
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure sp_get_articulos
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `flexxus_prueba_tecnica`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_articulos`(
+    IN p_nombre VARCHAR(80),
+    IN p_activo TINYINT
+)
+BEGIN
+    SELECT id_articulos, nombre, marca, activo, fecha_modificacion
+    FROM articulos
+    WHERE (p_nombre IS NULL OR nombre LIKE CONCAT('%', p_nombre, '%'))
+      AND (p_activo IS NULL OR activo = p_activo);
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure sp_update_articulo
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `flexxus_prueba_tecnica`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_articulo`(
+    IN p_id INT,
+    IN p_nombre VARCHAR(80),
+    IN p_marca VARCHAR(80),
+    IN p_activo TINYINT
+)
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM articulos WHERE id_articulos = p_id) THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'El artículo no existe';
+    END IF;
+    UPDATE articulos
+    SET 
+        nombre = IFNULL(p_nombre, nombre),
+        marca = IFNULL(p_marca, marca),
+        activo = IFNULL(p_activo, activo),
+        fecha_modificacion = NOW()
+    WHERE id_articulos = p_id;
+END$$
+
+DELIMITER ;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
