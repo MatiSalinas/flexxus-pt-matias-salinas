@@ -304,8 +304,6 @@ Status: 400 Bad Request
 
 ```
 let headersList = {
- "Accept": "*/*",
- "User-Agent": "Thunder Client (https://www.thunderclient.com)",
  "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhbGluYXNtYXRpYXNpdEBnbWFpbC5jb20iLCJpZF9yb2wiOjEsImlhdCI6MTc0ODcxNDU4OCwiZXhwIjoxNzQ4NzIxNzg4fQ.Cn_vXsAdDepy9CQnFyXIidKgFqr9iKWYnnlNCI24Y14",
  "Content-Type": "application/json"
 }
@@ -649,8 +647,8 @@ let response = await fetch("http://localhost:3000/api/v1/articulos/122", {
 ```
 //TODO
 
+scripts para buildear con tsx / pkgroll
 Dockerizar el proyecto
 script para crear base de datos y tablas
 seedear roles
 sustituir zod por class-validator para cumplir con los estandares de flexxus
-scripts para buildear
