@@ -25,6 +25,7 @@ const checkRole = (roles: number[]) => {
             res.status(401).send({message: "Invalid token"});
             return;
         }
+        console.log("User role:", user.id_rol);
         if (!roles.includes(user.id_rol)){
             res.status(403).send({
                 success:false,

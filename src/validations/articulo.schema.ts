@@ -21,9 +21,23 @@ export const articlesListResponseSchema = z.object({
 });
 
 export const articleQuerySchema = z.object({
-  isActivo: z.enum(["1","0"]).optional(),
+  limit: z
+    .string()
+    .transform((val) => (val === undefined ? 20 : Number(val)))
+    .refine((val) => !isNaN(val) && val >= 1 && val <= 100, {
+      message: "limit must be a number between 1 and 100",
+    })
+    .default("20"),
+  offset: z
+    .string()
+    .transform((val) => (val === undefined ? 0 : Number(val)))
+    .refine((val) => !isNaN(val) && val >= 0, {
+      message: "offset must be a number greater or equal to 0",
+    })
+    .default("0"),
+  isActivo: z.enum(["1", "0"]).optional(),
   nombre: z.string().optional(),
-})
+});
 
 export const articuloParamSchema = z.object({
   id: z.string()

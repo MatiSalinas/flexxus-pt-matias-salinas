@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `flexxus_prueba_tecnica`.`articulos` (
   `activo` TINYINT NOT NULL DEFAULT '1',
   PRIMARY KEY (`id_articulos`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 2
+AUTO_INCREMENT = 5
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -41,6 +41,7 @@ CREATE TABLE IF NOT EXISTS `flexxus_prueba_tecnica`.`roles` (
   `nombre_rol` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id_rol`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 3
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -61,6 +62,7 @@ CREATE TABLE IF NOT EXISTS `flexxus_prueba_tecnica`.`usuarios` (
     FOREIGN KEY (`rol_id`)
     REFERENCES `flexxus_prueba_tecnica`.`roles` (`id_rol`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 2
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -86,6 +88,10 @@ BEGIN
     END IF;
     INSERT INTO articulos (nombre, marca, activo, fecha_modificacion)
     VALUES (p_nombre, p_marca, IFNULL(p_activo, 1), NOW());
+
+    SELECT id_articulos, nombre, marca, activo, fecha_modificacion
+    FROM articulos
+    WHERE id_articulos = LAST_INSERT_ID();
 END$$
 
 DELIMITER ;
@@ -138,13 +144,17 @@ DELIMITER $$
 USE `flexxus_prueba_tecnica`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_articulos`(
     IN p_nombre VARCHAR(80),
-    IN p_activo TINYINT
+    IN p_activo TINYINT,
+    IN p_limit INT,
+    IN p_offset INT
 )
 BEGIN
     SELECT id_articulos, nombre, marca, activo, fecha_modificacion
     FROM articulos
     WHERE (p_nombre IS NULL OR nombre LIKE CONCAT('%', p_nombre, '%'))
-      AND (p_activo IS NULL OR activo = p_activo);
+	AND (p_activo IS NULL OR activo = p_activo)
+    LIMIT p_limit OFFSET p_offset;
+    
 END$$
 
 DELIMITER ;
@@ -171,6 +181,10 @@ BEGIN
         marca = IFNULL(p_marca, marca),
         activo = IFNULL(p_activo, activo),
         fecha_modificacion = NOW()
+    WHERE id_articulos = p_id;
+
+    SELECT id_articulos, nombre, marca, activo, fecha_modificacion
+    FROM articulos
     WHERE id_articulos = p_id;
 END$$
 

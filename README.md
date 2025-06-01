@@ -12,6 +12,9 @@ valide los datos utilizando zod.
 
 centralicé el manejo de errores.
 
+![Store Procedures](docs/store_procedures.png)
+
+pase las consultas a procedimientos almacenados en MySQL.
 
 ## requisitos
 
@@ -328,6 +331,9 @@ isActivo - opcional - Acepta 1 o 0 , si no la especificamos obtendremos tanto ac
 
 nombre - opcional - devuelve articulos por coincidencia en nombre.
 
+limit - opcional - devuelve la cantidad de articulos que queremos, por defecto devuelve 20.
+
+offset - opcional - devuelve el número de artículos a omitir, por defecto devuelve 0.
 
 Status: 200 OK
 ```
@@ -642,7 +648,7 @@ let response = await fetch("http://localhost:3000/api/v1/articulos/122", {
 });
 ```
 //TODO
-Deberia mover logica de negocio a services 
+
 Dockerizar el proyecto
 script para crear base de datos y tablas
 seedear roles

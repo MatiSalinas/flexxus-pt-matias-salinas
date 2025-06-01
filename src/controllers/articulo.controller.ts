@@ -7,13 +7,14 @@ const getArticulos = async (req: Request, res: Response) => {
     try {
         const nombre = req.query.nombre as string | undefined;
         const activo = req.query.isActivo as number | undefined;
+        const limit = (req.query.limit as number | undefined) ?? 20;
+        const offset = (req.query.offset as number | undefined) ?? 0;
 
-        const articulos = await ArticuloModel.findAll(nombre, activo);
-
-        res.status(200).send({
+        const articulos = await ArticuloModel.findAll(limit, offset, nombre, activo);
+        res.status(200).json({
+            message: `${articulos.length} articles found`,
             success: true,
-            data: articulos,
-            message: `${articulos.length} articles found`
+            data: articulos
         });
         return;
     } catch (error) {
