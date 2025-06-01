@@ -52,7 +52,19 @@ cp .env.example .env
 ## Como levantar y asegurarnos de que todo funcione
 en src/connection tenemos un modelo que usando MySQL Workbench 8.0 podemos construir el schema y las tablas necesarias
 
+
 ![Diagrama entidad relación](docs/EER.PNG)
+
+para abrir el modelo debemos ir a la pestaña de archivo y seleccionar abrir modelo
+
+![Abrir modelo en Workbench](docs/open-model.png)
+
+luego debemos hacer un forward engineer para crear la base de datos y las tablas
+
+
+![Forward engineer](docs/forward-engineer.png)
+
+
 
 tambien debemos asegurarnos de que la tabla roles contenga por lo menos estos 2 registros
 
