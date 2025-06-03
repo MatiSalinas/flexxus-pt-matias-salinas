@@ -12,13 +12,15 @@ valide los datos utilizando zod.
 
 centralicé el manejo de errores.
 
+![Diagrama entidad relación](docs/EER.PNG)
+
 ![Store Procedures](docs/store_procedures.png)
 
 pase las consultas a procedimientos almacenados en MySQL.
 
 No se que se consideraria como features que haria un senior como se me menciono en la entrevista, sin embargo podria investigar y completar los siguientes Issues.
 
-[Ver issue #1](https://github.com/MatiSalinas/flexxus-pt-matias-salinas/issues/1)
+~~ [Ver issue #1](https://github.com/MatiSalinas/flexxus-pt-matias-salinas/issues/1) ~~
 
 [Ver issue #2](https://github.com/MatiSalinas/flexxus-pt-matias-salinas/issues/2)
 
@@ -27,9 +29,9 @@ No se que se consideraria como features que haria un senior como se me menciono 
 
 ## requisitos
 
--node 
--mysql 
--mysql workbench
+> [!NOTE]
+> Docker y docker-compose deben estar instalados en el sistema.
+> -mysql workbench
 
 ## Descripción
 
@@ -60,38 +62,20 @@ cd repositorio
 npm install
 cp .env.example .env
 ```
+## Como levantar y asegurarnos de que todo funcione con docker
 
-## Como levantar y asegurarnos de que todo funcione
-en src/connection tenemos un modelo que usando MySQL Workbench 8.0 podemos construir el schema y las tablas necesarias
-
-
-![Diagrama entidad relación](docs/EER.PNG)
-
-para abrir el modelo debemos ir a la pestaña de archivo y seleccionar abrir modelo
-
-![Abrir modelo en Workbench](docs/open-model.png)
-
-luego debemos hacer un forward engineer para crear la base de datos y las tablas
-
-
-![Forward engineer](docs/forward-engineer.png)
-
-
-
-tambien debemos asegurarnos de que la tabla roles contenga por lo menos estos 2 registros
+simplemente debemos tener instalado docker y docker-compose
+y luego ejecutar el siguiente comando en la raiz del proyecto
 
 ```
-INSERT INTO `flexxus_prueba_tecnica`.`roles` (`id_rol`, `nombre_rol`) VALUES ('1', 'usuario');
-INSERT INTO `flexxus_prueba_tecnica`.`roles` (`id_rol`, `nombre_rol`) VALUES ('2', 'administrador');
+docker-compose up --build
 ```
 
-una vez hecho esto podemos levantar la API
+Y listo, tendremos la API corriendo en el puerto 3000 y una base de datos MySQL corriendo en el puerto 3307.
 
-```
-npm run dev 
-```
+>[!CAUTION]
+>Aun asi para probar las rutas protedigas por rol, debemos crear un usuario y luego manualmente modificar su rol_id a 2 para poder acceder a todas las funcionalidades de la API.
 
-Luego debemos crear un usuario y modificar su rol_id a 2 para poder acceder a todas las funcionalidades de la API.
 
 ## INFORMACION GENERAL
 
@@ -656,8 +640,7 @@ let response = await fetch("http://localhost:3000/api/v1/articulos/122", {
 ```
 //TODO
 
-scripts para buildear con tsx / pkgroll
-Dockerizar el proyecto
-script para crear base de datos y tablas
-seedear roles
+~~Dockerizar el proyecto~~
+~~script para crear base de datos y tablas~~
+~~seedear roles~~
 sustituir zod por class-validator para cumplir con los estandares de flexxus
