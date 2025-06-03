@@ -1,6 +1,6 @@
 # API REST - Flexus prueba técnica Backend
 Salinas Matias 
-Organice el proyecto en carpetas
+Organicé el proyecto en carpetas
 routes 
 models 
 controllers
@@ -15,6 +15,15 @@ centralicé el manejo de errores.
 ![Store Procedures](docs/store_procedures.png)
 
 pase las consultas a procedimientos almacenados en MySQL.
+
+No se que se consideraria como features que haria un senior como se me menciono en la entrevista, sin embargo podria investigar y completar los siguientes Issues.
+
+[Ver issue #1](https://github.com/MatiSalinas/flexxus-pt-matias-salinas/issues/1)
+
+[Ver issue #2](https://github.com/MatiSalinas/flexxus-pt-matias-salinas/issues/2)
+
+[Ver issue #3](https://github.com/MatiSalinas/flexxus-pt-matias-salinas/issues/3)
+
 
 ## requisitos
 
