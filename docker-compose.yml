@@ -1,0 +1,35 @@
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    environment:
+      - DB_HOST=${DOCKER_DB_HOST}
+    depends_on:
+      mysql:
+        condition: service_healthy
+    
+  mysql:
+    image: mysql:8.0
+    env_file:
+      - .env
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASS}
+      - MYSQL_DATABASE=${DB_NAME}
+
+#
+    ports:
+      - "3307:3306" # puse el puerto 3307 por que localmente ya tengo un mysql corriendo en el puerto 3306
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docs/db/create_db.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./docs/db/insertar_roles.sql:/docker-entrypoint-initdb.d/insertar_roles.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+volumes:
+  mysql_data:
